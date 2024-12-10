@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석 결과</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('input_data') }}" class="back-button">←</a>
+        <div class="header-title">리뷰 분석 결과</div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="profile-section">
+            <div class="profile-name">리뷰 분석</div>
+            <div class="review-count">리뷰 {{total_reviews}}개</div>
+        </div>
+
+        <div class="rating-section">
+            <div class="average-rating">
+                <div class="rating-number">{{ "%.1f"|format(average_score) }}</div>
+                <div class="rating-stars">
+                    {% set full_stars = average_score|int %}
+                    {% set half_star = (average_score - full_stars) >= 0.5 %}
+                    {% for _ in range(full_stars) %}★{% endfor %}
+                    {% if half_star %}★{% endif %}
+                    {% for _ in range(5 - full_stars - (1 if half_star else 0)) %}☆{% endfor %}
+                </div>
+            </div>
+
+            <div class="rating-bars">
+                <div class="rating-bar-item">
+                    <span class="rating-label">긍정</span>
+                    <div class="bar-container">
+                        <div class="bar-fill positive" style="width: {{ (positive_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ positive_count }}</span>
+                </div>
+                <div class="rating-bar-item">
+                    <span class="rating-label">중립</span>
+                    <div class="bar-container">
+                        <div class="bar-fill neutral" style="width: {{ (neutral_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ neutral_count }}</span>
+                </div>
+                <div class="rating-bar-item">
+                    <span class="rating-label">부정</span>
+                    <div class="bar-container">
+                        <div class="bar-fill negative" style="width: {{ (negative_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ negative_count }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3 class="analysis-title">전체 요약</h3>
+            <p class="analysis-content">{{ summary }}</p>
+        </div>
+
+        <div class="analysis-section">
+            <h3 class="analysis-title">개선 제안사항</h3>
+            <p class="analysis-content">{{ solution }}</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('input_data') }}">리뷰 입력</a>
+            <a href="{{ url_for('admin_login') }}">관리자</a>
+        </div>
+    </div>
+</body>
+</html>
