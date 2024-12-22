@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석 결과</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: #333;
+            font-size: 24px;
+            line-height: 1;
+            padding: 8px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .profile-section {
+            margin-bottom: 24px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .review-count {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .rating-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .average-rating {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .rating-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .rating-stars {
+            color: #FFD700;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .rating-bars {
+            margin-top: 24px;
+        }
+
+        .rating-bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .rating-label {
+            width: 48px;
+            font-size: 14px;
+        }
+
+        .rating-count {
+            width: 48px;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .bar-fill.positive {
+            background: #4CAF50;
+        }
+
+        .bar-fill.neutral {
+            background: #FFC107;
+        }
+
+        .bar-fill.negative {
+            background: #F44336;
+        }
+
+        .analysis-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .analysis-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .analysis-content {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .nav-links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0056b3;
+        }
+
+        @media (max-width: 640px) {
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .rating-section,
+            .analysis-section {
+                padding: 16px;
+            }
+
+            .rating-number {
+                font-size: 36px;
+            }
+
+            .rating-stars {
+                font-size: 20px;
+            }
+
+            .profile-name {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('input_data') }}" class="back-button">←</a>
+        <div class="header-title">리뷰 분석 결과</div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="profile-section">
+            <div class="profile-name">리뷰 분석</div>
+            <div class="review-count">리뷰 {{total_reviews}}개</div>
+        </div>
+
+        <div class="rating-section">
+            <div class="average-rating">
+                <div class="rating-number">{{ "%.1f"|format(average_score) }}</div>
+                <div class="rating-stars">
+                    {% set full_stars = average_score|int %}
+                    {% set half_star = (average_score - full_stars) >= 0.5 %}
+                    {% for _ in range(full_stars) %}★{% endfor %}
+                    {% if half_star %}★{% endif %}
+                    {% for _ in range(5 - full_stars - (1 if half_star else 0)) %}☆{% endfor %}
+                </div>
+            </div>
+
+            <div class="rating-bars">
+                <div class="rating-bar-item">
+                    <span class="rating-label">긍정</span>
+                    <div class="bar-container">
+                        <div class="bar-fill positive" style="width: {{ (positive_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ positive_count }}</span>
+                </div>
+                <div class="rating-bar-item">
+                    <span class="rating-label">중립</span>
+                    <div class="bar-container">
+                        <div class="bar-fill neutral" style="width: {{ (neutral_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ neutral_count }}</span>
+                </div>
+                <div class="rating-bar-item">
+                    <span class="rating-label">부정</span>
+                    <div class="bar-container">
+                        <div class="bar-fill negative" style="width: {{ (negative_count / total_reviews * 100)|round }}%"></div>
+                    </div>
+                    <span class="rating-count">{{ negative_count }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3 class="analysis-title">전체 요약</h3>
+            <p class="analysis-content">{{ summary }}</p>
+        </div>
+
+        <div class="analysis-section">
+            <h3 class="analysis-title">개선 제안사항</h3>
+            <p class="analysis-content">{{ solution }}</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('input_data') }}">리뷰 입력</a>
+            <a href="{{ url_for('admin_login') }}">관리자</a>
+        </div>
+    </div>
+</body>
+</html>

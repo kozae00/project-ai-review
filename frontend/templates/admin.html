@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .review-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .review-item {
+            display: flex;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            background: white;
+        }
+
+        .review-item:hover {
+            background-color: #fff9db;
+            border-color: #ffd43b;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-main {
+            flex-grow: 1;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .review-id {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .sentiment-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sentiment-positive {
+            background-color: #d3f9d8;
+            color: #2b8a3e;
+        }
+
+        .sentiment-neutral {
+            background-color: #fff3bf;
+            color: #8a5d2b;
+        }
+
+        .sentiment-negative {
+            background-color: #ffe3e3;
+            color: #c92a2a;
+        }
+
+        .review-text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .review-meta {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #ffd43b;
+            color: #1a1a1a;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="header">
+            <h1 class="header-title">리뷰 관리</h1>
+            <div class="header-actions">
+                <a href="{{ url_for('output_data') }}" class="nav-link">분석 결과</a>
+                <a href="{{ url_for('input_data') }}" class="nav-link">리뷰 입력</a>
+            </div>
+        </div>
+
+        <div class="review-list">
+            {% for result in detailed_results %}
+            <a href="{{ url_for('admin_detail', review_id=result.id) }}" class="review-item">
+                <div class="review-main">
+                    <div class="review-header">
+                        <span class="review-id">#{{ result.id }}</span>
+                        <span class="sentiment-badge sentiment-{{ result.final_sentiment }}">
+                            {{ result.final_sentiment }}
+                        </span>
+                    </div>
+                    <div class="review-text">{{ result.text }}</div>
+                    <div class="review-meta">
+                        Azure 신뢰도: 긍정 {{ result.azure_confidence_scores.positive | round(2) }},
+                        중립 {{ result.azure_confidence_scores.neutral | round(2) }},
+                        부정 {{ result.azure_confidence_scores.negative | round(2) }}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

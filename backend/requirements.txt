@@ -1,0 +1,8 @@
+Flask
+azure-ai-textanalytics
+openai==0.28.0
+transformers
+torch
+sentencepiece
+regex
+python-dotenv

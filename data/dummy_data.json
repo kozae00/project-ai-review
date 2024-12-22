@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "text": "음식이 매우 맛있고 서비스도 빨랐습니다. 위생상태도 깔끔했어요.",
+        "sentiment": "positive"
+    },
+    {
+        "id": 2,
+        "text": "메뉴가 설명과 달라요. 양도 많이 적고 맛도 별로입니다.",
+        "sentiment": "negative"
+    },
+    {
+        "id": 3,
+        "text": "가격대비 평범한 맛입니다. 특별히 좋거나 나쁘지는 않네요.",
+        "sentiment": "neutral"
+    },
+    {
+        "id": 4,
+        "text": "가성비가 정말 좋아요! 기대했던 것보다 훨씬 맛있었습니다.",
+        "sentiment": "positive"
+    },
+    {
+        "id": 5,
+        "text": "배달 과정에서 음식이 쏟아져 왔어요. 고객센터 응대도 불친절했습니다.",
+        "sentiment": "negative"
+    },
+    {
+        "id": 6,
+        "text": "음식 플레이팅이 깔끔하고 신선해보여요. 맛도 훌륭합니다.",
+        "sentiment": "positive"
+    },
+    {
+        "id": 7,
+        "text": "주문하고 한시간 만에 차가워졌어요. 음식 품질이 많이 떨어지네요.",
+        "sentiment": "negative"
+    },
+    {
+        "id": 8,
+        "text": "음식에 이물질이 있고 상했어요. 환불이 필요합니다.",
+        "sentiment": "negative"
+    },
+    {
+        "id": 9,
+        "text": "요리가 정말 맛있고 분위기도 좋았어요. 또 방문하고 싶습니다.",
+        "sentiment": "positive"
+    },
+    {
+        "id": 10,
+        "text": "음식이 맛있습니다. 배달도 빨리오고요!!",
+        "sentiment": "neutral"
+    }
+]

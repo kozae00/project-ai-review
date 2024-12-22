@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 입력</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .title-section {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            border: 1px solid #e6e6e6;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            background-color: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #666;
+            background-color: #ffffff;
+        }
+
+        textarea::placeholder {
+            color: #999;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #ffd43b;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #fcc419;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 640px) {
+            .content-wrapper {
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 16px;
+            }
+
+            textarea {
+                font-size: 15px;
+            }
+
+            button {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="title-section">
+            <h1>리뷰 등록</h1>
+            <h2>리뷰를 남겨주세요.</h2>
+        </div>
+        
+        <form method="post">
+            <textarea 
+                name="text" 
+                placeholder="리뷰를 작성해주세요."
+                required
+            ></textarea>
+            <button type="submit">리뷰 남기기</button>
+        </form>
+
+        <div class="nav-links">
+            <a href="{{ url_for('output_data') }}">리뷰 목록</a>
+            <a href="{{ url_for('admin_login') }}">관리자</a>
+        </div>
+    </div>
+</body>
+</html>
